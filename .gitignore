@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Angular cache
+.angular/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+tmp/
