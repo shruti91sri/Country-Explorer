@@ -4,30 +4,27 @@
       <div class="filter-row">
         <div class="filter-item">
           <app-p-input-text
-            [value]="filterForm.get('search')!.value"
-            placeholder="Search countries..."
-            (valueChange)="filterForm.get('search')!.setValue($event)">
+            formControlName="search"
+            placeholder="Search countries...">
           </app-p-input-text>
         </div>
 
         <div class="filter-item">
           <app-p-dropdown
             [options]="regions"
-            [value]="filterForm.get('region')!.value"
+            formControlName="region"
             placeholder="All Regions"
             [showClear]="true"
-            (valueChange)="filterForm.get('region')!.setValue($event)">
-          </app-p-dropdown>
+          ></app-p-dropdown>
         </div>
 
         <div class="filter-item">
           <app-p-dropdown
             [options]="sortOptions"
-            [value]="filterForm.get('sortBy')!.value"
+            formControlName="sortBy"
             optionLabel="label"
             optionValue="value"
-            (valueChange)="filterForm.get('sortBy')!.setValue($event)">
-          </app-p-dropdown>
+          ></app-p-dropdown>
         </div>
 
         <div class="filter-item">

@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CountryService } from '../../core/service/country.service';
 import { CountryCardComponent } from '../country-card/country-card.component';
 import { PDropdownComponent } from '../../shared/primeng-wrappers/dropdown/p-dropdown.component';
 import { PInputTextComponent } from '../../shared/primeng-wrappers/input-text/p-input-text.component';
+import { REGIONS, SORT_OPTIONS, SortKey } from '../../shared/model';
 
 @Component({
   selector: 'app-country-list',
@@ -25,21 +26,15 @@ export class CountryListComponent implements OnInit, OnDestroy {
   filteredCountries: any[] = [];
   loading = false;
   subscription = new Subscription();
-
-  filterForm = new UntypedFormGroup({
-    search: new UntypedFormControl(''),
-    region: new UntypedFormControl(''),
-    sortBy: new UntypedFormControl('name')
+  // change to reactive forms
+  readonly filterForm = new FormGroup({
+    search: new FormControl<string>('',     { nonNullable: true }),
+    region: new FormControl<string | null>(null),
+    sortBy: new FormControl<SortKey>('name', { nonNullable: true }),
   });
 
-  regions = ['Africa', 'Americas', 'Antarctic', 'Asia', 'Europe', 'Oceania'];
-
-  sortOptions = [
-    { label: 'Name', value: 'name' },
-    { label: 'Population', value: 'population' },
-    { label: 'Area', value: 'area' }
-  ];
-
+  regions = REGIONS;
+  sortOptions = SORT_OPTIONS;
   constructor(private countryService: CountryService) { }
 
   ngOnInit(): void {
@@ -104,9 +99,8 @@ export class CountryListComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.filterForm.get('search')!.setValue('');
-    this.filterForm.get('region')!.setValue('');
-    this.filterForm.get('sortBy')!.setValue('name');
+    //reset the form to initial values
+    this.filterForm.reset({ search: '', region: null, sortBy: 'name' });
   }
 
   ngOnDestroy(): void {
