@@ -6,13 +6,13 @@ export const SORT_OPTIONS: { label: string; value: SortKey }[] = [
   { label: 'Area (km²)',        value: 'area'       },
 ];
 
-export const REGIONS: string[] = [
-  'Africa',
-  'Americas',
-  'Antarctic',
-  'Asia',
-  'Europe',
-  'Oceania',
+export const REGIONS: { label: string; value: string }[] = [
+  { label: 'Africa',    value: 'Africa'    },
+  { label: 'Americas',  value: 'Americas'  },
+  { label: 'Antarctic', value: 'Antarctic' },
+  { label: 'Asia',      value: 'Asia'      },
+  { label: 'Europe',    value: 'Europe'    },
+  { label: 'Oceania',   value: 'Oceania'   },
 ];
 
 export interface FilterValues {

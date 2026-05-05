@@ -1,7 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
-import { REGIONS, SORT_OPTIONS } from '../../model';
 
 @Component({
   selector: 'app-p-dropdown',
@@ -22,7 +21,7 @@ import { REGIONS, SORT_OPTIONS } from '../../model';
       [optionLabel]="optionLabel"
       [optionValue]="optionValue"
       [showClear]="showClear"
-      (ngModelChange)="valueChange.emit($event)"
+      (ngModelChange)="onSelect($event)"
       [style]="{ width: '100%' }">
     </p-select>
   `
@@ -34,7 +33,6 @@ export class PDropdownComponent implements ControlValueAccessor {
   @Input() optionLabel = '';
   @Input() optionValue = '';
   @Input() showClear = false;
-  @Output() valueChange = new EventEmitter<any>();
   onChange: (val: unknown) => void = () => {};
   onTouched: () => void = () => {};
   disabled = false;
@@ -54,5 +52,11 @@ export class PDropdownComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  onSelect(val: unknown): void {
+    this.value = val;
+    this.onChange(val); // notify FormControl of the new value
+    this.onTouched();
   }
 }

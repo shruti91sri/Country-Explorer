@@ -26,11 +26,12 @@ import { InputTextModule } from 'primeng/inputtext';
 export class PInputTextComponent implements ControlValueAccessor {
   @Input() value = '';
   @Input() placeholder = '';
-  @Output() valueChange = new EventEmitter<string>();
 
   onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.valueChange.emit(target.value);
+    this.value = target.value;
+    this.onChange(this.value);   // notify FormControl of the new value
+    this.onTouched(); 
   }
   onChange: (val: unknown) => void = () => {};
   onTouched: () => void = () => {};
