@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-country-card',
-  standalone: false,
+  standalone: true,
   templateUrl: './country-card.component.html'
 })
 export class CountryCardComponent {

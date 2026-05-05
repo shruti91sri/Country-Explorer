@@ -1,11 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CountryService } from '../../core/service/country.service';
+import { CountryCardComponent } from '../country-card/country-card.component';
+import { PDropdownComponent } from '../../shared/primeng-wrappers/dropdown/p-dropdown.component';
+import { PInputTextComponent } from '../../shared/primeng-wrappers/input-text/p-input-text.component';
 
 @Component({
   selector: 'app-country-list',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    CountryCardComponent,
+    PDropdownComponent,
+    PInputTextComponent
+  ],
   templateUrl: './country-list.component.html'
 })
 export class CountryListComponent implements OnInit, OnDestroy {
