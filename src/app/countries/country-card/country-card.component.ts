@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Country } from '../../shared/model';
 
 @Component({
   selector: 'app-country-card',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class CountryCardComponent {
 
-  @Input() country: any;
+  @Input({ required: true }) country!: Country;
   private readonly router = inject(Router)
 
   getPopulation(): string {
@@ -24,7 +25,7 @@ export class CountryCardComponent {
   getCurrencies(): string {
     if (!this.country.currencies) return 'N/A';
     return Object.values(this.country.currencies)
-      .map((c: any) => c.name)
+      .map(c => c.name)
       .join(', ');
   }
 

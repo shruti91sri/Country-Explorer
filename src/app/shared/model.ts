@@ -20,3 +20,32 @@ export interface FilterValues {
   region: string | null;
   sortBy: SortKey;
 }
+
+export interface CountryName {
+  common: string;
+  official?: string;
+}
+
+export interface CountryCurrency {
+  name: string;
+  symbol?: string;
+}
+
+export interface CountryFlags {
+  png: string;
+  svg?: string;
+  alt?: string;
+}
+
+export interface Country {
+  cca3: string;
+  name: CountryName;
+  capital?: string[];
+  region: string;
+  population: number;
+  area: number;
+  flags: CountryFlags;
+  currencies?: Record<string, CountryCurrency>;
+  languages?: Record<string, string>;
+  borders?: string[];
+}
