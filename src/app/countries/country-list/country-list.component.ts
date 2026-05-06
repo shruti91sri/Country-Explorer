@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, finalize, map } from 'rxjs/operators';
 import { CountryService } from '../../core/service/country.service';
 import { CountryCardComponent } from '../country-card/country-card.component';
 import { PDropdownComponent } from '../../shared/primeng-wrappers/dropdown/p-dropdown.component';
@@ -37,23 +37,40 @@ export class CountryListComponent {
   //use tosignal to get the countries from the service
   readonly countries = toSignal(
     this.countryService.getAll().pipe(
-      tap(() => this.loading.set(false)),
       catchError(err => {
         this.error.set(err?.message ?? 'Failed to load countries. Please try again.');
         this.loading.set(false);
         return of<Country[]>([]);
       }),
+      finalize(() => this.loading.set(false)),
     ),
     { initialValue: [] as Country[] },
   );
 
-  readonly filters = toSignal(this.filterForm.valueChanges, {
-    initialValue: this.filterForm.getRawValue(),
-  });
+  readonly search = toSignal(
+    this.filterForm.controls.search.valueChanges.pipe(
+      debounceTime(300),
+      map(v => (v ?? '').trim()),
+      distinctUntilChanged(),
+    ),
+    { initialValue: '' },
+  );
+
+  readonly region = toSignal(
+    this.filterForm.controls.region.valueChanges,
+    { initialValue: this.filterForm.controls.region.value },
+  );
+
+  readonly sortBy = toSignal(
+    this.filterForm.controls.sortBy.valueChanges,
+    { initialValue: this.filterForm.controls.sortBy.value },
+  );
 
   readonly filteredCountries = computed(() => {
     const list = this.countries();
-    const { search, region, sortBy } = this.filters() ?? this.filterForm.getRawValue();
+    const search = this.search();
+    const region = this.region();
+    const sortBy = this.sortBy();
 
     let result = [...list];
     if (search) {
