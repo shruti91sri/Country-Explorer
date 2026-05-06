@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -13,6 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <input
       pInputText
@@ -36,7 +37,7 @@ export class PInputTextComponent implements ControlValueAccessor {
   onChange: (val: unknown) => void = () => {};
   onTouched: () => void = () => {};
   disabled = false;
-  // ── ControlValueAccessor ──────────────────────────────────────────────────
+  // ControlValueAccessor implementation
 
   writeValue(val: unknown): void {
     this.value = val as string;

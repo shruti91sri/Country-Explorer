@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-country-card',
   standalone: true,
-  templateUrl: './country-card.component.html'
+  templateUrl: './country-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountryCardComponent {
 
   @Input() country: any;
-
-  constructor(private router: Router) { }
+  private readonly router = inject(Router)
 
   getPopulation(): string {
     if (this.country.population > 1000000) {

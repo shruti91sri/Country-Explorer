@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 
@@ -13,6 +13,7 @@ import { SelectModule } from 'primeng/select';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p-select
       [options]="$any(options)"
