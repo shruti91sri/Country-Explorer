@@ -48,4 +48,5 @@ export interface Country {
   currencies?: Record<string, CountryCurrency>;
   languages?: Record<string, string>;
   borders?: string[];
+  timezones?: string[];
 }

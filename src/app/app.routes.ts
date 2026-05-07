@@ -8,6 +8,12 @@ export const routes: Routes = [
         .then(m => m.CountryListComponent)
   },
   {
+    path: 'compare',
+    loadComponent: () =>
+      import('./countries/country-compare/country-compare.component')
+        .then(m => m.CountryCompareComponent)
+  },
+  {
     path: '',
     redirectTo: 'countries',
     pathMatch: 'full'

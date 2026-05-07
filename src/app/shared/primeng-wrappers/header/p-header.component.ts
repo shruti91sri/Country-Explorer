@@ -14,6 +14,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         </div>
         <nav class="header-nav">
           <a routerLink="/countries" routerLinkActive="active">Countries</a>
+          <a routerLink="/compare" routerLinkActive="active">Compare</a>
         </nav>
       </div>
     </div>

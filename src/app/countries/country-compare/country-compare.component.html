@@ -1,0 +1,62 @@
+<header>
+  <h1>Compare Countries</h1>
+  <p>Select 2 or {{ MAX_SELECTABLE }} countries to compare side by side.</p>
+</header>
+
+@if (loading()) {
+  <div class="status" role="status">
+    <i class="pi pi-spin pi-spinner"></i> Loading countries…
+  </div>
+} @else if (error()) {
+  <div class="status error" role="alert">{{ error() }}</div>
+} @else {
+  <p-multiSelect
+    [ngModel]="selectedCodes()"
+    (ngModelChange)="selectedCodes.set($event)"
+    [options]="options()"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="Search and select countries…"
+    [selectionLimit]="MAX_SELECTABLE"
+    [filter]="true"
+    filterPlaceholder="Type to search…"
+    [style]="{ width: '100%', maxWidth: '560px', marginBottom: '20px' }">
+  </p-multiSelect>
+
+  @let countries = selectedCountries();
+
+  @if (countries.length < 2) {
+    <p class="hint">Select at least 2 countries to start comparing.</p>
+  } @else {
+    <p-table [value]="comparisonRows()" styleClass="compare-table p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="col-attr"></th>
+          @for (c of countries; track c.cca3) {
+            <th class="col-country">
+              <button type="button"
+                      class="remove"
+                      [attr.aria-label]="'Remove ' + c.name.common"
+                      (click)="remove(c.cca3)">
+                <i class="pi pi-times"></i>
+              </button>
+              <img [src]="c.flags.png"
+                   [alt]="c.flags.alt || c.name.common + ' flag'"
+                   width="72" height="48" loading="lazy" />
+              <div class="name">{{ c.name.common }}</div>
+            </th>
+          }
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <th scope="row" class="col-attr">{{ row.label }}</th>
+          @for (value of row.values; track $index) {
+            <td>{{ value }}</td>
+          }
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+}
