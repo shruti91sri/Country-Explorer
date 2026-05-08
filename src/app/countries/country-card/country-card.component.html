@@ -1,13 +1,17 @@
 <div class="country-card" (click)="onCardClick()">
   <div class="card-flag">
-    <img [src]="country.flags?.png" alt="flag">
+    <img
+      [src]="country.flags.png"
+      [alt]="country.flags.alt || (country.name.common + ' flag')"
+      loading="lazy"
+      decoding="async">
   </div>
   <div class="card-body">
     <div class="card-title">{{ country.name.common }}</div>
     <div class="card-info">
       <div class="info-row">
         <span class="label">Population:</span>
-        <span class="value">{{ getPopulation() }}</span>
+        <span class="value">{{ country.population | population }}</span>
       </div>
       <div class="info-row">
         <span class="label">Region:</span>
@@ -15,15 +19,15 @@
       </div>
       <div class="info-row">
         <span class="label">Capital:</span>
-        <span class="value">{{ country.capital ? country.capital[0] : 'N/A' }}</span>
+        <span class="value">{{ country.capital?.[0] ?? 'N/A' }}</span>
       </div>
       <div class="info-row">
         <span class="label">Currencies:</span>
-        <span class="value">{{ getCurrencies() }}</span>
+        <span class="value">{{ country.currencies | currencies }}</span>
       </div>
       <div class="info-row">
         <span class="label">Languages:</span>
-        <span class="value">{{ getLanguages() }}</span>
+        <span class="value">{{ country.languages | languages }}</span>
       </div>
     </div>
   </div>

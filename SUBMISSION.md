@@ -29,3 +29,9 @@ Requirements:
 - Country selector (users pick which countries to compare)
 - Side-by-side display of key data: population, area, capital, region, currencies, languages, timezones, borders
 
+## Performance improvement
+
+1. **Lazy-loaded flag images** — added `loading="lazy"`, `decoding="async"`on the country card `<img>`. Initial flag requests dropped from 250 to average 11, eliminated layout shift, and improved a11y with a per-country `alt`.
+
+2. The template in country-card.component.html binds to method calls (getPopulation(), getCurrencies(), getLanguages()) and an inline ternary for capital. Angular re-evaluates every template expression on each change-detection cycle — OnPush only controls when the component is checked, not what runs during that check. So each cycle, getCurrencies() and getLanguages() allocate two fresh arrays (Object.values, .map) and a new joined string, even though the country input is immutable. Across ~250 cards that's thousands of throwaway allocations per tick, adding GC pressure for zero benefit. The right pattern is to derive these display values once in the @Input setter (or via pure pipes / computed() signals) and bind to plain fields, so the template does pure identity checks instead of recomputation.
+Solution: implement pure pipes.
